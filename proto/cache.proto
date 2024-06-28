@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package cache;
+option go_package = "./proto";
+
+service CacheService {
+    rpc Set(SetRequest) returns (SetResponse);
+    rpc Get(GetRequest) returns (GetResponse);
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+message SetRequest {
+    string key = 1;
+    string value = 2;
+}
+
+message SetResponse {
+    string message = 1;
+}
+
+message GetRequest {}
+
+message GetResponse {
+    map<string, string> data = 1;
+    string server_port = 2;
+}
+
+message DeleteRequest {
+    string key = 1;
+}
+
+message DeleteResponse {
+    string message = 1;
+}
