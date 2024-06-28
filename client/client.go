@@ -52,7 +52,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("could not get: %v", err)
 			}
-			log.Printf("Get Response %d from Server %s at %s: Data: %v", index+1, res.ServerPort, start.Format("15:04:05.000"), res.Data)
+			log.Printf("Get Response %d from Server %s at %s: Data: %v", index+1, res.ServerPort,start.Format("15:04:05.000000000"), res.Data)
 		}(i)
 	}
 	wgGet1.Wait()
@@ -88,7 +88,7 @@ func main() {
 			if err != nil {
 				log.Fatalf("could not get: %v", err)
 			}
-			log.Printf("Second Get Response %d from Server %s at %s: Data: %v", index+1, res.ServerPort, start.Format("15:04:05.000"), res.Data)
+			log.Printf("Second Get Response %d from Server %s at %s: Data: %v", index+1, res.ServerPort,start.Format("15:04:05.000000000"), res.Data)
 		}(i)
 	}
 	wgGet2.Wait()
