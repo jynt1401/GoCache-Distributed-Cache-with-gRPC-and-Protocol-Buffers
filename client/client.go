@@ -46,7 +46,7 @@ func main() {
 			defer wgGet1.Done()
 			time.Sleep(time.Millisecond * 20) // Simulating delay after Set operations
 			start := time.Now()
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 			defer cancel()
 			res, err := client.Get(ctx, &pb.GetRequest{})
 			if err != nil {
@@ -82,7 +82,7 @@ func main() {
 			defer wgGet2.Done()
 			time.Sleep(time.Millisecond * 40) // Simulating delay after Delete operations
 			start := time.Now()
-			ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 			defer cancel()
 			res, err := client.Get(ctx, &pb.GetRequest{})
 			if err != nil {

@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"sync"
+	"time"
 
 	pb "gocache/proto"
 
@@ -30,20 +31,38 @@ func (s *server) getNextServer() (pb.CacheServiceClient, string) {
 
 func (s *server) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse, error) {
 	client, port := s.getNextServer()
-	log.Printf("Load Balancer received Get request, forwarding to server on port %s", port)
-	return client.Get(ctx, req)
+	start := time.Now()
+	log.Printf("[%s] Load Balancer received Get request, forwarding to server on port %s", start.Format("2006-01-02 15:04:05.000000"), port)
+	res, err := client.Get(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("[%s] Second Get Response from Server %s: Data: %v", time.Now().Format("2006-01-02 15:04:05.000000"), res.ServerPort, res.Data)
+	return res, nil
 }
 
 func (s *server) Set(ctx context.Context, req *pb.SetRequest) (*pb.SetResponse, error) {
 	client, port := s.getNextServer()
-	log.Printf("Load Balancer received Set request, forwarding to server on port %s", port)
-	return client.Set(ctx, req)
+	start := time.Now()
+	log.Printf("[%s] Load Balancer received Set request, forwarding to server on port %s", start.Format("2006-01-02 15:04:05.000000"), port)
+	res, err := client.Set(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("[%s] Set Response from Server %s", time.Now().Format("2006-01-02 15:04:05.000000"), port)
+	return res, nil
 }
 
 func (s *server) Delete(ctx context.Context, req *pb.DeleteRequest) (*pb.DeleteResponse, error) {
 	client, port := s.getNextServer()
-	log.Printf("Load Balancer received Delete request, forwarding to server on port %s", port)
-	return client.Delete(ctx, req)
+	start := time.Now()
+	log.Printf("[%s] Load Balancer received Delete request, forwarding to server on port %s", start.Format("2006-01-02 15:04:05.000000"), port)
+	res, err := client.Delete(ctx, req)
+	if err != nil {
+		return nil, err
+	}
+	log.Printf("[%s] Delete Response from Server %s", time.Now().Format("2006-01-02 15:04:05.000000"), port)
+	return res, nil
 }
 
 func main() {
